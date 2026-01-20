@@ -1,5 +1,8 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+import comm from './tools/comm.js'
+
+const {addReq, getReq, deleteReq} = comm
 
 const App = () => {
   const [currSearch, setCurrSearch] = useState("")
@@ -20,12 +23,23 @@ const App = () => {
   const handleDelete = (id) => {
     let temp = myPokemon
     setMyPokemon(temp.filter(val => val.id !== id))
+    deleteReq(id)
   }
 
   const handleAdd = (name, id) => {
-    let temp = [...myPokemon, {id: id, name: name}]
+    const newPoke = {id: id, name: name}
+    let temp = [...myPokemon, newPoke]
     setMyPokemon(temp)
+    addReq(newPoke)
   }
+
+  useEffect(() => {
+    getReq()
+    .then(response => {
+      console.log("data fetched")
+      setMyPokemon(response.data)
+    })
+  }, [])
 
   useEffect(() => {
     if(!pokemon) return

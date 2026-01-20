@@ -1,0 +1,10 @@
+GET http://localhost:3001/api/pokemon
+
+###
+POST http://localhost:3001/api/pokemon
+content-type:application/json
+
+{
+    "id": "2",
+    "name": "nika"
+}
